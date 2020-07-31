@@ -56,11 +56,10 @@ public class DocumentToIndexScheduler {
 
     @Scheduled(fixedRate = 5 * 1_000)
     public void executeCleanUp() {
-        Set<String> keys = redisTemplate.keys("*_S_*");
+        Set<String> keys = redisTemplate.keys("*_V_*");
         if (keys != null) {
             for (String key : keys) {
                 List<String> elements = redisTemplate.boundListOps(key).range(0, -1);
-                dateFromES = esService.get(documentid);
                 for (String element : elements) {
                     if (LocalDateTime.parse(element).plus(30, ChronoUnit.MINUTES).isBefore(LocalDateTime.now())) {
                         LOGGER.info("Remove element {}", element);
