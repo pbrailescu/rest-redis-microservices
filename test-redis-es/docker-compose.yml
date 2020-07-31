@@ -1,0 +1,18 @@
+version: '3'
+services: 
+  redis:
+    image: 'redis:6.0.6'
+    ports:
+      - "6379:6379"
+
+  spring-redis:
+    build: ./spring-redis/
+    ports:
+      - "9020:9020"
+      - "10020:10020"
+
+  es-indexer:
+    build: ./es-writer/
+    ports:
+      - "9021:9021"
+      - "10021:10021"
